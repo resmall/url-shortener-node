@@ -1,5 +1,3 @@
-const validUrl = require('valid-url')
+const validUrl = require('valid-url');
 
-exports.isValid = (uri) => {
-    return validUrl.isUri(uri);
-}
+exports.isValid = uri => validUrl.isUri(uri);
