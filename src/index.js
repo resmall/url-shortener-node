@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+
 dotenv.config();
 const Koa = require('koa');
 const Router = require('koa-router');
@@ -28,7 +29,7 @@ router.post('/shorten', async (ctx) => {
   if (url && Url.isValid(url)) {
     ctx.body = {
       newUrl: `${process.env.SERVICE_URL}/${newUrl}`,
-      expiresAt: '',
+      expiresAt: '3423423424',
     };
   } else {
     ctx.status = 400;
