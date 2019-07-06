@@ -5,10 +5,15 @@
   "author": "Tiago R. Lammers",
   "license": "MIT",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "jest"
   },
   "dependencies": {
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
     "jest": "^24.8.0",
-    "koa": "^2.7.0"
+    "supertest": "^4.0.2"
   }
 }
