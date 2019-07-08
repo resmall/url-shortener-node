@@ -75,7 +75,6 @@ describe('API', () => {
       url: 'http://test2.com',
       expires_at: 3423423424*1000
     });
-    console.log(newurl._id, newurl.expires_at, newurl.url)
     const res = await request(app)
       .get(`/${newurl._id}`);
 
