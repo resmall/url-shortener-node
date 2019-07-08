@@ -1,0 +1,24 @@
+version: "3"
+services:
+  app:
+    container_name: url-shortener
+    restart: always
+    build: ./
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "8081:3000"
+    environment:
+      - MONGO_HOST=mongodb://mongo:27017
+      - MONGO_DB=url-shortener
+      - PORT=3000
+      - SECONDS_TO_EXPIRE_URL=60
+      - SERVICE_URL=http://localhost:8081
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
