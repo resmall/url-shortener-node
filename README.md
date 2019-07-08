@@ -1,19 +1,37 @@
 # URL Shortener
 
-This application uses short_id for random string generation.
+## Setup
 
-shortid.worker(integer)
-Default: process.env.NODE_UNIQUE_ID || 0
+This application uses [shortid](https://www.npmjs.com/package/shortid) library. To run multiple instances and make sure there aren't any collisions, set this env. It should be an integer between 0 and 16.
+```
+NODE_UNIQUE_ID
+```
 
-Recommendation: You typically won't want to change this.
+To run the project.
 
-Optional
+1. Copy the `.env-example` and fill the environment variables.
+2. Run `npm install`
+3. Then `npm start`
+4. To run the tests `npm test` (make sure you have a mongodb instance running)
+5. To run the tests with coverage `npm run coverage`
 
-If you are running multiple server processes then you should make sure every one has a unique worker id. Should be an integer between 0 and 16. If you do not do this there is very little chance of two servers generating the same id, but it is theoretically possible if both are generated in the exact same second and are generating the same number of ids that second and a half-dozen random numbers are all exactly the same.
+Current coverage:
+```
+====== Coverage summary =======
+Statements   : 92.42% ( 61/66 )
+Branches     : 91.67% ( 11/12 )
+Functions    : 87.5% ( 7/8 )
+Lines        : 92.06% ( 58/63 )
+===============================
+```
 
-Example
+Alternatively you can simply use `docker-compose`, for that, run the following command:
 
-shortid.worker(1);
+```
+docker-compose up
+```
+It should be accepting requests on port `http://localhost:8081`.
+URL will expire after 60 seconds by default.
 
 ## Shortening
 The service gets an url as parameter, the shortened URL has the following rules:
@@ -23,11 +41,18 @@ The service gets an url as parameter, the shortened URL has the following rules:
 3. The URL expires after some time
 
 ## API
+
+### GET /health
+It will respond with 200 if the server is responding.
+
+### GET /:id
+It will redirect you to the shortened url.
+
 ### POST /shorten
 Request body:
 ```
 {
-    url: "www.yourl.com"
+  url: "www.yourl.com"
 }
 ```
 
