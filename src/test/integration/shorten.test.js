@@ -5,6 +5,9 @@ const app = require('../../index');
 const Url = require('../../url/url');
 const { expect } = require('chai');
 const UrlModel = require('../../models/url');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 
 describe('API', () => {
@@ -69,13 +72,33 @@ describe('API', () => {
 
   it('should redirect to the shortened url', async () => {
     const newurl = await UrlModel.create({
-      url: 'http://google.com',
-      expires_at: 3423423424
+      url: 'http://test2.com',
+      expires_at: 3423423424*1000
     });
+    console.log(newurl._id, newurl.expires_at, newurl.url)
     const res = await request(app)
       .get(`/${newurl._id}`);
 
     expect(res.status).to.eq(302);
+  });
+
+  it('should return status 410 for expired url', async () => {
+    const newurl = await UrlModel.create({
+      url: 'http://test.com',
+      expires_at: 0
+    });
+
+    const res = await request(app)
+      .get(`/${newurl._id}`);
+
+    expect(res.status).to.eq(410);
+  });
+
+  it('should get unexistant url', async () => {
+    const res = await request(app)
+      .get(`/testesss`);
+
+    expect(res.status).to.eq(404);
   });
 
 });

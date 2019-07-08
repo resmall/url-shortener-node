@@ -28,8 +28,7 @@ module.exports = {
         };
       } catch (e) {
         console.error(e);
-        ctx.status = 500;
-        ctx.body = { message: 'There was a problem with your request.' };
+        ctx.throw(500, 'There was a problem with your request.');
       }
     } else {
       ctx.status = 400;
