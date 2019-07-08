@@ -56,6 +56,25 @@ router.post('/shorten', async (ctx) => {
   }
 });
 
+router.get('/:id', async (ctx) => {
+  const { id } = ctx.params;
+
+  if (id) {
+    try {
+      const url = await UrlModel.findById(id);
+      if (url) {
+        ctx.redirect(url.url); // redirect to another page
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+      ctx.throw(500, 'There was a problem with your request.');
+    }
+  }
+  ctx.body = { message: 'Url not found.' };
+  ctx.status = 404;
+});
+
 app.use(router.routes());
 
 const server = app.listen(PORT).on('error', (err) => {
