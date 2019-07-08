@@ -13,5 +13,5 @@ const Url = mongoose.Schema({
   versionKey: false,
 });
 
-Url.index({ createdAt: 1 }, { expireAfterSeconds: parseInt(process.env.SECONDS_TO_EXPIRE_URL) });
+Url.index({ expires_at: 1 });
 module.exports = mongoose.model('Url', Url);

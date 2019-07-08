@@ -6,3 +6,5 @@ exports.getExpirationDate = (seconds) => {
 };
 
 exports.getUnixTimestamp = date => Math.round(date.getTime() / 1000);
+
+exports.hasExpired = expirationDate => moment(expirationDate).isBefore(new Date());

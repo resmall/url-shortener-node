@@ -1,6 +1,6 @@
 const UrlModel = require('../models/url');
 const Url = require('../url/url');
-const { getExpirationDate, getUnixTimestamp } = require('../services/date');
+const { getExpirationDate, getUnixTimestamp, hasExpired } = require('../services/date');
 
 module.exports = {
   health(ctx) {
@@ -44,6 +44,11 @@ module.exports = {
       try {
         const url = await UrlModel.findById(id);
         if (url) {
+          if (hasExpired(url.expires_at)) {
+            ctx.body = { message: 'URL has expired.' };
+            ctx.status = 410;
+            return;
+          }
           ctx.redirect(url.url);
           return;
         }
@@ -52,7 +57,7 @@ module.exports = {
         ctx.throw(500, 'There was a problem with your request.');
       }
     }
-    ctx.body = { message: 'Url not found.' };
+    ctx.body = { message: 'URL not found.' };
     ctx.status = 404;
   },
 };
