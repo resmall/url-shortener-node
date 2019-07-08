@@ -4,6 +4,7 @@ const request = require('supertest');
 const app = require('../../index');
 const Url = require('../../url/url');
 const { expect } = require('chai');
+const UrlModel = require('../../models/url');
 
 
 describe('API', () => {
@@ -64,6 +65,17 @@ describe('API', () => {
     const milliseconds = res.body.expiresAt * 1000;
     const dt = new Date(milliseconds);
     expect(dt instanceof Date && !isNaN(dt)).to.be.true;
+  });
+
+  it('should redirect to the shortened url', async () => {
+    const newurl = await UrlModel.create({
+      url: 'http://google.com',
+      expires_at: 3423423424
+    });
+    const res = await request(app)
+      .get(`/${newurl._id}`);
+
+    expect(res.status).to.eq(302);
   });
 
 });

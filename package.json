@@ -8,7 +8,7 @@
     "start": "node src/index.js",
     "test": "mocha src/test/** --exit",
     "watch": "mocha src/test/** --watch",
-    "coverage": "nyc --reporter=text-summary yarn test"
+    "coverage": "nyc --reporter=text-summary --reporter=html yarn test"
   },
   "nyc": {
     "all": true,
