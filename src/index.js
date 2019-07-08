@@ -8,7 +8,6 @@ const mongoose = require('mongoose');
 const UrlModel = require('./models/url');
 
 const Url = require('./url/url');
-const shortid = require('./services/shortid');
 const { getExpirationDate, getUnixTimestamp } = require('./services/date');
 
 const router = new Router();
@@ -32,19 +31,17 @@ router.post('/shorten', async (ctx) => {
   const { url } = ctx.request.body;
 
   if (url && Url.isValid(url)) {
-    const newUrl = shortid.get();
-
     const expirationDate = getExpirationDate(process.env.SECONDS_TO_EXPIRE_URL);
     const expirationTimeUnixTimestamp = getUnixTimestamp(expirationDate);
 
     try {
-      await UrlModel.create({
-        url: newUrl,
+      const saved = await UrlModel.create({
+        url,
         expires_at: expirationDate,
       });
 
       ctx.body = {
-        newUrl: `${process.env.SERVICE_URL}/${newUrl}`,
+        newUrl: `${process.env.SERVICE_URL}/${saved._id}`,
         expiresAt: expirationTimeUnixTimestamp,
       };
     } catch (e) {

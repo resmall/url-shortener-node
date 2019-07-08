@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
+const shortid = require('shortid');
 
 const Url = mongoose.Schema({
+  _id: {
+    type: String,
+    default: shortid.generate,
+  },
   url: String,
   expires_at: Date,
 }, {
