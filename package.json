@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "test": "jest",
-    "watch": "jest --watch"
+    "test": "mocha src/test/** --exit",
+    "watch": "mocha src/test/** --watch"
   },
   "dependencies": {
     "dotenv": "^8.0.0",
@@ -20,10 +20,11 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^6.0.1",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.0",
-    "jest": "^24.8.0",
+    "mocha": "^6.1.4",
     "supertest": "^4.0.2"
   }
 }

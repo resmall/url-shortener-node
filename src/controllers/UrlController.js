@@ -28,13 +28,12 @@ module.exports = {
         };
       } catch (e) {
         console.error(e);
-        ctx.throw(500, 'There was a problem with your request.');
+        ctx.status = 500;
+        ctx.body = { message: 'There was a problem with your request.' };
       }
     } else {
       ctx.status = 400;
-      ctx.body = {
-        message: 'Invalid request.',
-      };
+      ctx.body = { message: 'Invalid url.' };
     }
   },
 
